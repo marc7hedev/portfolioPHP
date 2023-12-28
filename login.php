@@ -1,6 +1,8 @@
 <?php
+    session_start();
     if($_POST){
         if(($_POST["usuario"]=="marc7") && ($_POST["contrasenia"]=="Fucker777")){
+            $_SESSION["usuario"]="marc7";
             header("location:index.php");
         }else{
             echo "<script>alert('Datos incorrectos')</script>";
