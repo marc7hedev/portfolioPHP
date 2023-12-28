@@ -1,4 +1,16 @@
-<?php include "cabecera.php"; ?>
+<?php 
+    include "cabecera.php"; 
+    include "conexion.php"; 
+
+    $objConexion = new Conexion();
+    $sql="
+        INSERT INTO proyectos (id, nombre, imagen, descripcion) VALUES (NULL, 'Proyecto 1', 'imagen.jpg', 'Un proyecto de hace mucho tiempo');
+    ";
+    
+    $objConexion->ejecutar($sql);
+
+
+?>
 
 <!-- Contenedor del formulario y tabla -->
 <div class="container">
