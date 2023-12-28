@@ -1,3 +1,13 @@
+<?php
+    if($_POST){
+        if(($_POST["usuario"]=="marc7") && ($_POST["contrasenia"]=="Fucker777")){
+            header("location:index.php");
+        }else{
+            echo "<script>alert('Datos incorrectos')</script>";
+        }
+    }
+?>
+
 <!doctype html>
 <html lang="en">
     <head>
@@ -34,9 +44,9 @@
                         <div class="card-body">
                             <form action="login.php" method="post">
                 
-                                Usuario: <input class="form-control" type="text" name="usuario" id="">
+                                Usuario: <input class="form-control" type="text" name="usuario" id="" patter="[A-Za-z0-9]+" required>
                                 <br>
-                                Contraseña: <input class="form-control" type="text" name="contrasenia" id="">
+                                Contraseña: <input class="form-control" type="password" name="contrasenia" id="" required>
                                 <br>
                                 <button class="btn btn-success" type="submit">Ingresar</button>
                     
