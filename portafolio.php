@@ -7,8 +7,8 @@
 
         //print_r($_POST);
         $nombre=$_POST["nombre"];
-        $imagen=$_POST["archivo"];
         $descripcion=$_POST["descripcion"];
+        $imagen=$_FILES["archivo"]["name"];
 
         $objConexion = new Conexion();
         $sql="
@@ -44,9 +44,10 @@
                 <div class="card-body">
                     <form action="portafolio.php" method="post" enctype="multipart/form-data">
                         Nombre del proyecto: <input class="form-control" type="text" name="nombre" id="">
-                        Descripción: <input class="form-control" type="text" name="descripcion" id="">
                         <br>
                         Imagen del proyecto: <input class="form-control" type="file" name="archivo" id="">
+                        <br>
+                        Descripción: <textarea class="form-control" name="descripcion" rows="3"></textarea>
                         <br>
                         <input class="btn btn-success" type="submit" value="Enviar">
                     </form>
