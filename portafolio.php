@@ -2,13 +2,23 @@
     include "cabecera.php"; 
     include "conexion.php"; 
 
-    $objConexion = new Conexion();
-    $sql="
-        INSERT INTO proyectos (id, nombre, imagen, descripcion) VALUES (NULL, 'Proyecto 1', 'imagen.jpg', 'Un proyecto de hace mucho tiempo');
-    ";
-    
-    $objConexion->ejecutar($sql);
+    if($_POST){
 
+        print_r($_POST);
+        $nombre=$_POST["nombre"];
+
+        $objConexion = new Conexion();
+        $sql="
+            INSERT INTO proyectos (id, nombre, imagen, descripcion) VALUES (NULL, '$nombre', 'imagen.jpg', 'Un proyecto de hace mucho tiempo');
+        ";
+        
+        $objConexion->ejecutar($sql);
+
+    }    
+
+    $objConexion = new Conexion();
+    $resultado = $objConexion->consultar("SELECT * FROM proyectos;");
+    print_r($resultado);
 
 ?>
 
@@ -21,7 +31,7 @@
             <div class="card">
                 <div class="card-header">Datos del proyecto</div>
                 <div class="card-body">
-                    <form action="portafolio.php" method="post">
+                    <form action="portafolio.php" method="post" enctype="multipart/form-data">
                         Nombre del proyecto: <input class="form-control" type="text" name="nombre" id="">
                         <br>
                         Imagen del proyecto: <input class="form-control" type="file" name="archivo" id="">
