@@ -2,13 +2,14 @@
     include "cabecera.php"; 
     include "conexion.php"; 
 
-    //Recepcion de datos del formulario e inserción a la BBDD
+    //*Recepcion de datos del formulario e inserción a la BBDD
     if($_POST){
-
-        //print_r($_POST);
-        $nombre=$_POST["nombre"];
-        $descripcion=$_POST["descripcion"];
-        $imagen=$_FILES["archivo"]["name"];
+        $nombre = $_POST["nombre"];
+        $descripcion = $_POST["descripcion"];
+        $fecha = new DateTime();
+        $imagen = $fecha->getTimestamp()."_".$_FILES["archivo"]["name"];
+        $imagen_temporal = $_FILES["archivo"]["tmp_name"];
+        move_uploaded_file($imagen_temporal,"imagenes/".$imagen);
 
         $objConexion = new Conexion();
         $sql="
@@ -18,10 +19,14 @@
         $objConexion->ejecutar($sql);
     }    
 
-    // Botón de borrado
+    // *Botón de borrado
     if($_GET){
         $id = $_GET["borrar"];
         $objConexion = new Conexion();
+
+        $imagen = $objConexion->consultar("SELECT imagen FROM proyectos WHERE id= '$id';");
+        unlink("imagenes/".$imagen[0]["imagen"]);
+
         $sql = "DELETE FROM proyectos WHERE proyectos.id = '$id';";
         $objConexion->ejecutar($sql);
 
