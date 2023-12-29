@@ -2,23 +2,34 @@
     include "cabecera.php"; 
     include "conexion.php"; 
 
+    //Recepcion de datos del formulario e inserción a la BBDD
     if($_POST){
 
-        print_r($_POST);
+        //print_r($_POST);
         $nombre=$_POST["nombre"];
+        $imagen=$_POST["archivo"];
+        $descripcion=$_POST["descripcion"];
 
         $objConexion = new Conexion();
         $sql="
-            INSERT INTO proyectos (id, nombre, imagen, descripcion) VALUES (NULL, '$nombre', 'imagen.jpg', 'Un proyecto de hace mucho tiempo');
+            INSERT INTO proyectos (id, nombre, imagen, descripcion) VALUES (NULL, '$nombre', '$imagen', '$descripcion');
         ";
         
         $objConexion->ejecutar($sql);
-
     }    
 
+    // Botón de borrado
+    if($_GET){
+        $id = $_GET["borrar"];
+        $objConexion = new Conexion();
+        $sql = "DELETE FROM proyectos WHERE proyectos.id = '$id';";
+        $objConexion->ejecutar($sql);
+
+    }
+
     $objConexion = new Conexion();
-    $resultado = $objConexion->consultar("SELECT * FROM proyectos;");
-    print_r($resultado);
+    $proyectos = $objConexion->consultar("SELECT * FROM proyectos;");
+    //print_r($proyectos);
 
 ?>
 
@@ -33,6 +44,7 @@
                 <div class="card-body">
                     <form action="portafolio.php" method="post" enctype="multipart/form-data">
                         Nombre del proyecto: <input class="form-control" type="text" name="nombre" id="">
+                        Descripción: <input class="form-control" type="text" name="descripcion" id="">
                         <br>
                         Imagen del proyecto: <input class="form-control" type="file" name="archivo" id="">
                         <br>
@@ -51,14 +63,28 @@
                         <th>ID</th>
                         <th>Nombre</th>
                         <th>Imagen</th>
+                        <th>Descripción</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                    <tr>
-                        <td>1</td>
-                        <td>Aplicación web</td>
-                        <td>imagen.jpg</td>
-                    </tr>
+                    
+                    <?php
+                        foreach($proyectos as $proyecto){
+                            echo "<tr>";
+                                echo "<td>",$proyecto["id"],"</td>";
+                                echo "<td>",$proyecto["nombre"],"</td>";
+                                echo "<td>",$proyecto["imagen"],"</td>";
+                                echo "<td>",$proyecto["descripcion"],"</td>";
+                                echo "<td>
+                                    <a class='btn btn-danger' href='?borrar=",$proyecto['id'],"'>Eliminar</a>
+                                </td>";
+                                
+                            echo "</tr>";
+                            
+                        }
+                    ?>    
+
                     
                 </tbody>
             </table>
